@@ -48,7 +48,7 @@
                 android:layout_weight="4"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:text="예약 "
+                android:text="예약"
                 android:textColor="#000"
                 android:textAlignment="center"
                 android:textSize="20sp"/>
