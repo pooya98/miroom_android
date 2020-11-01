@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+
+
+    <LinearLayout
+        android:id="@+id/reservation_bt"
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        android:clickable="true"
+        android:onClick="onclick_reservation"
+        >
+
+        <LinearLayout
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:background="#deebf7"
+            >
+
+            <TextView
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:textAlignment="center" />
+
+            <ImageView
+                android:layout_weight="10"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:src="@mipmap/reservation"
+                />
+
+            <TextView
+                android:layout_weight="4"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:text="예약"
+                android:textColor="#000"
+                android:textAlignment="center"
+                android:textSize="20sp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:clickable="true"
+            android:id="@+id/lookup_bt"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:background="#bdd7ee"
+            android:onClick="onclick_Lookup"
+            >
+
+            <TextView
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:textAlignment="center" />
+
+            <ImageView
+                android:layout_weight="10"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:src="@mipmap/lookup"
+                />
+
+            <TextView
+                android:layout_weight="4"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:text="예약조회"
+                android:textColor="#000"
+                android:textAlignment="center"
+                android:textSize="20sp"/>
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1.5" />
+
+</LinearLayout>

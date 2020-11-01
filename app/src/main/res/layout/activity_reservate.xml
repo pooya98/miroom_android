@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".Reservate">
+
+    <LinearLayout
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="#FFF"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_weight="0.4"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"/>
+
+        <LinearLayout
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_weight="2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent" />
+
+            <TextView
+                android:id="@+id/textView_date"
+                android:layout_weight="4"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="2020년 10월 21일 (수)"
+                android:textSize="18sp"
+                android:textColor="#000"/>
+
+            <ImageButton
+                android:id="@+id/select_date_bt"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:onClick="onclick_date_bt"
+                android:src="@mipmap/calendar"
+                android:background="#FFF"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter"/>
+
+            <TextView
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent" />
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_weight="0.4"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"/>
+
+        <LinearLayout
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_weight="0.1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"/>
+
+            <LinearLayout
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:background="@drawable/edge">
+
+                <Spinner
+                    android:id="@+id/building_spinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:spinnerMode="dialog"
+                    />
+
+            </LinearLayout>
+
+
+            <TextView
+                android:layout_weight="0.2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"/>
+
+            <LinearLayout
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:background="@drawable/edge">
+
+                <Spinner
+                    android:id="@+id/layer_spinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:spinnerMode="dialog"/>
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_weight="0.1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"/>
+
+            <TextView
+                android:layout_weight="0.5"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"/>
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_weight="0.6"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"/>
+
+        <LinearLayout
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_weight="0.1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"/>
+
+            <LinearLayout
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:background="@drawable/edge">
+
+                <Spinner
+                    android:id="@+id/start_time_spinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:prompt="@string/start_time"
+                    android:spinnerMode="dialog"/>
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_weight="0.2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="~"
+                android:textSize="20sp"
+                android:textColor="#000"/>
+
+            <LinearLayout
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:background="@drawable/edge">
+
+                <Spinner
+                    android:id="@+id/end_time_spinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:prompt="@string/end_time"
+                    android:spinnerMode="dialog"/>
+
+            </LinearLayout>
+
+
+
+            <TextView
+                android:layout_weight="0.1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"/>
+
+            <Button
+                android:id="@+id/OK_bt"
+                android:layout_weight="0.5"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:text="조회"
+                android:onClick="onclick_OK"/>
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_weight="0.1"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"/>
+
+    <LinearLayout
+        android:layout_weight="0.2"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        android:background="#DCDCDC">
+
+        <TextView
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:gravity="center_vertical"
+            android:layout_height="match_parent"
+            android:paddingLeft="10dp"
+            android:text="회의실 이름"
+            android:textColor="#000"/>
+
+        <TextView
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:gravity="center_vertical"
+            android:layout_height="match_parent" />
+
+        <TextView
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:gravity="center"
+            android:layout_height="match_parent"
+            android:paddingLeft="50dp"
+            android:text="상태"
+            android:textColor="#000"/>
+    </LinearLayout>
+
+    <ListView
+        android:layout_weight="2"
+        android:id="@+id/listView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"/>
+
+
+</LinearLayout>
