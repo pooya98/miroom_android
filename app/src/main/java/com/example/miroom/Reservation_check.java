@@ -11,9 +11,12 @@ public class Reservation_check extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reservation_check);
-        ActionBar ab = getSupportActionBar() ;
-        ab.setTitle("RESERVATION CHECK");
-        ab.setDisplayHomeAsUpEnabled(true);
+
+        if(getSupportActionBar() != null) {
+            ActionBar ab = getSupportActionBar();
+            ab.setTitle("RESERVATION CHECK");
+            ab.setDisplayHomeAsUpEnabled(true);
+        }
     }
 
     public boolean onOptionsItemSelected(android.view.MenuItem item) {
@@ -25,5 +28,5 @@ public class Reservation_check extends AppCompatActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
-    };
+    }
 }
