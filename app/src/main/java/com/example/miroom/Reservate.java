@@ -19,16 +19,28 @@ import android.widget.Toast;
 
 import com.example.miroom.R;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Scanner;
+import java.util.zip.Deflater;
 
 public class Reservate extends AppCompatActivity {
 
     ListView listView;
     ArrayList<String> aryList = new ArrayList<String>();
+    Spinner layer_spinner;
 
     private TextView textView_Date;
     private DatePickerDialog.OnDateSetListener callbackMethod;
@@ -37,8 +49,17 @@ public class Reservate extends AppCompatActivity {
     int select_month;
     int select_day;
     String select_yoil;
+    String selected_layer;
 
     ArrayAdapter<String> adapter;
+
+    ArrayList<String> arrayList_for_layer_spinner = new ArrayList<String>();
+
+    HttpPost httppost;
+    HttpResponse response;
+    HttpClient httpClient;
+    List<NameValuePair> nameValuePairs;
+    HttpGet httpget;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +71,9 @@ public class Reservate extends AppCompatActivity {
 
         this.InitializeView();
         this.InitializeListener();
+
+        layer_spinner = (Spinner)findViewById(R.id.layer_spinner);
+
 
         /* 현재 날짜 정보 저장 */
         Calendar cal = Calendar.getInstance();
@@ -78,15 +102,34 @@ public class Reservate extends AppCompatActivity {
 
         spinner.setAdapter(Adapter);
 
-        Spinner spinner2 = (Spinner) findViewById(R.id.layer_spinner);
-        ArrayList<String> arrayList2 = new ArrayList<String>();
-        arrayList2.add(0, "층");
-        arrayList2.add("지하 1층");
 
-        ArrayAdapter<String> Adapter2 = new ArrayAdapter<String>(
-                this, R.layout.item_spinner, R.id.name, arrayList2);
+        /* Layer Spinner Load 시작 */
+        Thread loadThread = new Thread(){
+          public void run(){
+              contact_server_for_load();
+          }
+        };
 
-        spinner2.setAdapter(Adapter2);
+        loadThread.start();
+        System.out.println("--- loadThread go!");
+
+        try{
+            loadThread.join();
+            System.out.println("--- loadThread done!");
+        }catch(Exception e){
+            e.getMessage();
+        }
+
+        ArrayAdapter<String> Adapter_for_layer = new ArrayAdapter<String>(
+                this, R.layout.item_spinner, R.id.name, arrayList_for_layer_spinner);
+
+        layer_spinner.setAdapter(Adapter_for_layer);
+
+
+        /* Layer Spinner Load 완료 */
+
+
+
 
         Spinner spinner3 = (Spinner) findViewById(R.id.start_time_spinner);
         ArrayList<String> arrayList3 = new ArrayList<String>();
@@ -103,6 +146,8 @@ public class Reservate extends AppCompatActivity {
 
         spinner3.setAdapter(Adapter3);
 
+
+        /* 종료시각 spinner */
         Spinner spinner4 = (Spinner) findViewById(R.id.end_time_spinner);
         ArrayList<String> arrayList4 = new ArrayList<String>();
         arrayList4.add(0, "종료 시각");
@@ -118,25 +163,10 @@ public class Reservate extends AppCompatActivity {
 
         spinner4.setAdapter(Adapter4);
 
+        /* 종료 시각 spinner 완료*/
+
 
         listView = (ListView) findViewById(R.id.listView);
-
-        aryList.add("401호");
-        aryList.add("402호");
-        aryList.add("403호");
-        aryList.add("404호");
-        aryList.add("405호");
-        aryList.add("406호");
-        aryList.add("407호");
-        aryList.add("408호");
-        aryList.add("409호");
-        aryList.add("410호");
-        aryList.add("411호");
-        aryList.add("412호");
-        aryList.add("413호");
-        aryList.add("414호");
-        aryList.add("415호");
-        aryList.add("416호");
 
 
         adapter = new ArrayAdapter<String>(
@@ -241,7 +271,101 @@ public class Reservate extends AppCompatActivity {
     }
 
     public void onclick_OK(View view) {
+
+        aryList.clear();
+        Thread searchThread = new Thread(){
+            public void run(){
+                contact_server_for_search();
+            }
+        };
+
+        searchThread.start();
+        System.out.println("--- loadThread go!");
+
+        try{
+            searchThread.join();
+            System.out.println("--- loadThread done!");
+        }catch(Exception e){
+            e.getMessage();
+        }
+
+
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(listener);
+    }
+
+    void contact_server_for_load(){
+        System.out.println("--- 스레드 시작");
+
+        try{
+
+            httpClient = new DefaultHttpClient();
+            httppost = new HttpPost("http://ec2-3-35-3-235.ap-northeast-2.compute.amazonaws.com/layer_load.php");
+            response = httpClient.execute(httppost);
+
+            //
+            Scanner scan = new Scanner(response.getEntity().getContent());
+
+            String response_string = "";
+            while(scan.hasNext()){
+                response_string += scan.nextLine();
+            }
+
+            System.out.println("---Response : "+response_string);
+
+            String[] token;
+            token = response_string.split(" ");
+
+            arrayList_for_layer_spinner.add(0,"층");
+            for(int i=0;i< token.length;i++){
+                System.out.println("token "+i+" : "+ token[i]);
+                arrayList_for_layer_spinner.add(token[i]);
+            }
+
+        }catch (Exception e){
+            System.out.println("Exception : "+e.getMessage());
+        }
+    }
+
+    void contact_server_for_search(){
+        System.out.println("--- 스레드 시작");
+
+        try{
+
+            String selected_layer = layer_spinner.getSelectedItem().toString();
+
+            httpClient = new DefaultHttpClient();
+            httpget = new HttpGet("http://ec2-3-35-3-235.ap-northeast-2.compute.amazonaws.com/search_room.php?layer=%27"+ selected_layer+"%27");
+            //nameValuePairs = new ArrayList<>(2);
+            //nameValuePairs.add(new BasicNameValuePair("layer", selected_layer));
+
+            //httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+            response = httpClient.execute(httpget);
+
+            //
+            Scanner scan = new Scanner(response.getEntity().getContent());
+
+            String response_string = "";
+            while(scan.hasNext()){
+                response_string += scan.nextLine();
+            }
+
+            System.out.println("---Response : "+response_string);
+
+            String[] token;
+            token = response_string.split(" ");
+
+            if(token[0].equals("")){
+
+            }
+            else {
+                for (int i = 0; i < token.length; i++) {
+                    System.out.println("token " + i + " : " + token[i]);
+                    aryList.add(token[i]);
+                }
+            }
+        }catch (Exception e){
+            System.out.println("Exception : "+e.getMessage());
+        }
     }
 }
