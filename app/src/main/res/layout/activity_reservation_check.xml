@@ -10,25 +10,26 @@
     <TextView
         android:id="@+id/textView"
         android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:gravity="start"
+        android:layout_height="27dp"
+        android:gravity="left"
         android:text="이름"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/button"
+        android:textSize="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/reservationCheck"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.27"
+        app:layout_constraintHorizontal_bias="0.25"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.41000003" />
+        app:layout_constraintVertical_bias="0.45" />
 
     <TextView
         android:id="@+id/textView2"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:gravity="start"
+        android:gravity="left"
         android:text="전화번호"
-        android:textSize="20sp"
+        android:textSize="20dp"
+        app:layout_constraintEnd_toEndOf="@+id/textView"
         app:layout_constraintStart_toStartOf="@+id/textView"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
@@ -42,7 +43,7 @@
 
         android:gravity="center_vertical"
         android:inputType="text"
-        android:textSize="20dp"
+        android:autoSizeTextType="uniform"
         app:layout_constraintBottom_toBottomOf="@+id/textView"
         app:layout_constraintStart_toEndOf="@+id/textView"
         app:layout_constraintTop_toTopOf="@+id/textView"
@@ -58,25 +59,29 @@
         android:paddingLeft="10dp"
         android:paddingVertical="3dp"
 
-        android:textSize="20sp"
-        android:textColor="#000"
+        android:autoSizeTextType="uniform"
         android:gravity="center_vertical"
         android:hint="- 제외"
         app:layout_constraintBottom_toBottomOf="@+id/textView2"
         app:layout_constraintStart_toEndOf="@+id/textView2"
-        app:layout_constraintTop_toTopOf="@+id/textView2"
-        tools:ignore="MissingConstraints" />
+        app:layout_constraintTop_toTopOf="@+id/textView2" />
 
+<!--    onclick reservationCheck 필요-->
     <Button
-        android:id="@+id/button"
+        android:id="@+id/reservationCheck"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#DAE3F3"
+        android:layout_height="80dp"
+        android:background="@drawable/color_button1_state"
+        android:focusable="true"
+
+
         android:paddingTop="20dp"
         android:paddingBottom="20dp"
+
         android:text="예약 조회"
         android:textColor="#44546A"
         android:textSize="30sp"
+        android:onClick="onclick_search_reservation"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

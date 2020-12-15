@@ -11,22 +11,27 @@
 
     <TextView
         android:id="@+id/textView2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
-        android:gravity="start"
+        android:layout_width="393dp"
+        android:layout_height="64dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:gravity="left"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:text="방에대한 설명 TEXT"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/phone_num"
+        android:autoSizeTextType="uniform"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView2" />
 
     <EditText
         android:id="@+id/name"
         android:layout_width="120dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
         android:background="#EDEDED"
         android:gravity="center_vertical"
         android:hint="이름"
@@ -34,19 +39,39 @@
         android:paddingVertical="3dp"
         android:paddingLeft="15dp"
         android:textColorHint="#C5C3C3"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:autoSizeTextType="uniform"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.03"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView2"
+        tools:ignore="MissingConstraints" />
+
+    <EditText
+        android:id="@+id/group"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="#EDEDED"
+        android:gravity="center_vertical"
+        android:hint="소속"
+        android:inputType="text"
+        android:paddingVertical="3dp"
+        android:paddingLeft="15dp"
+        android:textColorHint="#C5C3C3"
+        android:autoSizeTextType="uniform"
+        app:layout_constraintEnd_toEndOf="@+id/name"
+        app:layout_constraintHorizontal_bias="0.044"
+        app:layout_constraintStart_toStartOf="@+id/name"
+        app:layout_constraintTop_toBottomOf="@+id/name"
         tools:ignore="MissingConstraints" />
 
     <EditText
         android:id="@+id/phone_num"
-        android:layout_width="160dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
+        android:layout_marginStart="10dp"
+
+        android:layout_marginEnd="10dp"
         android:background="#EDEDED"
 
         android:gravity="center_vertical"
@@ -57,10 +82,10 @@
 
         android:paddingVertical="3dp"
         android:paddingLeft="15dp"
-
         android:textColorHint="#C5C3C3"
-        android:textSize="20sp"
+        android:autoSizeTextType="uniform"
         app:layout_constraintBottom_toBottomOf="@+id/name"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/name"
         app:layout_constraintTop_toTopOf="@+id/name"
         tools:ignore="MissingConstraints" />
@@ -69,64 +94,78 @@
         android:id="@+id/member_num"
         android:layout_width="70dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:background="#EDEDED"
 
+        android:layout_marginStart="10dp"
+        android:background="#EDEDED"
         android:gravity="center_vertical"
+
         android:hint="인원"
         android:inputType="number"
-        android:maxLength="2"
 
+        android:maxLength="2"
         android:paddingVertical="3dp"
         android:paddingLeft="15dp"
-
         android:textColorHint="#C5C3C3"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="@+id/name"
-        app:layout_constraintStart_toEndOf="@+id/phone_num"
-        app:layout_constraintTop_toTopOf="@+id/name"
+        android:autoSizeTextType="uniform"
+        app:layout_constraintBottom_toBottomOf="@+id/group"
+        app:layout_constraintStart_toEndOf="@+id/group"
+        app:layout_constraintTop_toBottomOf="@+id/name"
+        app:layout_constraintVertical_bias="1.0"
         tools:ignore="MissingConstraints" />
 
     <EditText
         android:id="@+id/use_contents"
-        android:layout_width="392dp"
-        android:layout_height="188dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+
+        android:layout_marginEnd="10dp"
+
+        android:layout_marginBottom="10dp"
         android:background="#EDEDED"
+
         android:hint="사용 목적을 입력해 주세요"
-
-        android:inputType="textImeMultiLine"
         android:maxLength="200"
-
         android:paddingVertical="3dp"
         android:paddingLeft="15dp"
-
         android:textColorHint="#C5C3C3"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/button2"
-        app:layout_constraintEnd_toEndOf="@+id/member_num"
-        app:layout_constraintStart_toStartOf="@+id/name"
-        app:layout_constraintTop_toBottomOf="@+id/phone_num"
+        android:textSize="20dp"
+
+        android:inputType="textImeMultiLine"
+        android:scrollHorizontally="false"
+
+        app:layout_constraintBottom_toTopOf="@+id/reservation_bt"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/group"
         tools:ignore="MissingConstraints" />
 
     <ImageView
+        android:id="@+id/imageView2"
         android:layout_width="410dp"
-        android:layout_height="wrap_content"
+        android:layout_height="229dp"
         android:src="@mipmap/room_image"
-        app:layout_constraintBottom_toTopOf="@+id/textView2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <!--    onclick reservation 필요-->
+
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/reservation_bt"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#DAE3F3"
+        android:layout_height="80dp"
+
+        android:background="@drawable/color_button1_state"
+        android:focusable="true"
+
         android:paddingTop="20dp"
         android:paddingBottom="20dp"
         android:text="예약 하기"
         android:textColor="#44546A"
         android:textSize="30sp"
+
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

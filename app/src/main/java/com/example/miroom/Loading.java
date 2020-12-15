@@ -3,6 +3,7 @@ package com.example.miroom;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.os.Handler;
 
@@ -14,6 +15,8 @@ public class Loading extends Activity {
         super.onCreate(savedInstanceState);
         //setTheme(android.R.style.Theme);
         setContentView(R.layout.activity_loading);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
         startLoading();
     }
     private void startLoading() {

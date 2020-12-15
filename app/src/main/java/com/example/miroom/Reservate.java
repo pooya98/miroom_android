@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -65,6 +66,8 @@ public class Reservate extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reservate);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
         ActionBar ab = getSupportActionBar();
         ab.setTitle("RESERVATION");
         ab.setDisplayHomeAsUpEnabled(true);
@@ -90,17 +93,6 @@ public class Reservate extends AppCompatActivity {
         /*                      */
 
         textView_Date.setText(select_year + "년 " + select_month + "월 " + select_day + "일" + " (" + select_yoil + ")");
-
-
-        Spinner spinner = (Spinner) findViewById(R.id.building_spinner);
-        ArrayList<String> arrayList = new ArrayList<String>();
-        arrayList.add(0, "건물명");
-        arrayList.add("테크노빌딩");
-
-        ArrayAdapter<String> Adapter = new ArrayAdapter<String>(
-                this, R.layout.item_spinner, R.id.name, arrayList);
-
-        spinner.setAdapter(Adapter);
 
 
         /* Layer Spinner Load 시작 */
