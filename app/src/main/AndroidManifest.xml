@@ -14,7 +14,6 @@
         <activity android:name=".SignUp"></activity>
         <activity android:name=".Reservation_check_result"></activity>
         <activity android:name=".Book_page" />
-        <activity android:name=".Reservation_check" />
         <activity android:name=".Reservate" />
         <activity android:name=".Loading" />
         <activity android:name=".Login">
