@@ -1,174 +1,259 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Book_page">
-
-
-    <!--        android:inputType="number" 키보드 설정-->
+    android:orientation="vertical"
+    tools:context=".Reservation_cancel">
 
     <TextView
-        android:id="@+id/textView2"
-        android:layout_width="393dp"
-        android:layout_height="64dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="10dp"
-        android:gravity="left"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:text="방에대한 설명 TEXT"
-        android:autoSizeTextType="uniform"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView2" />
-
-    <EditText
-        android:id="@+id/name"
-        android:layout_width="120dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
-        android:background="#EDEDED"
-        android:gravity="center_vertical"
-        android:hint="이름"
-        android:inputType="text"
-        android:paddingVertical="3dp"
-        android:paddingLeft="15dp"
-        android:textColorHint="#C5C3C3"
-        android:autoSizeTextType="uniform"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2"
-        tools:ignore="MissingConstraints" />
-
-    <EditText
-        android:id="@+id/group"
-        android:layout_width="120dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:background="#EDEDED"
-        android:gravity="center_vertical"
-        android:hint="소속"
-        android:inputType="text"
-        android:paddingVertical="3dp"
-        android:paddingLeft="15dp"
-        android:textColorHint="#C5C3C3"
-        android:autoSizeTextType="uniform"
-        app:layout_constraintEnd_toEndOf="@+id/name"
-        app:layout_constraintHorizontal_bias="0.044"
-        app:layout_constraintStart_toStartOf="@+id/name"
-        app:layout_constraintTop_toBottomOf="@+id/name"
-        tools:ignore="MissingConstraints" />
-
-    <EditText
-        android:id="@+id/phone_num"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-
-        android:layout_marginEnd="10dp"
-        android:background="#EDEDED"
-
-        android:gravity="center_vertical"
-        android:hint="전화번호(-제외)"
-
-        android:inputType="phone"
-        android:maxLength="11"
-
-        android:paddingVertical="3dp"
-        android:paddingLeft="15dp"
-        android:textColorHint="#C5C3C3"
-        android:autoSizeTextType="uniform"
-        app:layout_constraintBottom_toBottomOf="@+id/name"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/name"
-        app:layout_constraintTop_toTopOf="@+id/name"
-        tools:ignore="MissingConstraints" />
-
-    <EditText
-        android:id="@+id/member_num"
-        android:layout_width="70dp"
-        android:layout_height="wrap_content"
-
-        android:layout_marginStart="10dp"
-        android:background="#EDEDED"
-        android:gravity="center_vertical"
-
-        android:hint="인원"
-        android:inputType="number"
-
-        android:maxLength="2"
-        android:paddingVertical="3dp"
-        android:paddingLeft="15dp"
-        android:textColorHint="#C5C3C3"
-        android:autoSizeTextType="uniform"
-        app:layout_constraintBottom_toBottomOf="@+id/group"
-        app:layout_constraintStart_toEndOf="@+id/group"
-        app:layout_constraintTop_toBottomOf="@+id/name"
-        app:layout_constraintVertical_bias="1.0"
-        tools:ignore="MissingConstraints" />
-
-    <EditText
-        android:id="@+id/use_contents"
-        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
+        android:text="회의실 정보"
+        android:textStyle="bold"
+        android:textColor="#000"
+        android:textSize="30sp"></TextView>
 
-        android:layout_marginEnd="10dp"
+    <LinearLayout
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="horizontal">
 
-        android:layout_marginBottom="10dp"
-        android:background="#EDEDED"
+        <TextView
+            android:layout_width="0dp"
+            android:gravity="center_vertical"
+            android:layout_height="match_parent"
+            android:layout_weight="1.2"
+            android:text="    회의실 명"
+            android:textSize="18sp"
+            android:textColor="#000"></TextView>
 
-        android:hint="사용 목적을 입력해 주세요"
-        android:maxLength="200"
-        android:paddingVertical="3dp"
-        android:paddingLeft="15dp"
-        android:textColorHint="#C5C3C3"
-        android:textSize="20dp"
+        <TextView
+            android:id="@+id/TV_room_name"
+            android:layout_weight="2"
+            android:gravity="center"
+            android:layout_width="0dp"
+            android:text="공대 구호관"
+            android:layout_height="match_parent"
+            android:background="#C4C8E3"
+            android:textSize="18sp"
+            android:layout_margin="10dp"></TextView>
 
-        android:inputType="textImeMultiLine"
-        android:scrollHorizontally="false"
+    </LinearLayout>
 
-        app:layout_constraintBottom_toTopOf="@+id/reservation_bt"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/group"
-        tools:ignore="MissingConstraints" />
+    <LinearLayout
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="horizontal">
 
-    <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="410dp"
-        android:layout_height="229dp"
-        android:src="@mipmap/room_image"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <TextView
+            android:layout_width="0dp"
+            android:gravity="center_vertical"
+            android:layout_height="match_parent"
+            android:layout_weight="1.2"
+            android:text="    회의실 규모"
+            android:textColor="#000"
+            android:textSize="18sp"></TextView>
+
+        <TextView
+            android:id="@+id/TV_room_size"
+            android:layout_weight="2"
+            android:gravity="center"
+            android:layout_width="0dp"
+            android:text="공대 구호관"
+            android:layout_height="match_parent"
+            android:background="#C4C8E3"
+            android:textSize="18sp"
+            android:layout_margin="10dp"></TextView>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:gravity="center_vertical"
+            android:layout_height="match_parent"
+            android:layout_weight="1.2"
+            android:text="    회의실 장비"
+            android:textColor="#000"
+            android:textSize="18sp"></TextView>
+
+        <TextView
+            android:id="@+id/TV_room_util"
+            android:layout_weight="2"
+            android:gravity="center"
+            android:layout_width="0dp"
+            android:text="공대 구호관"
+            android:layout_height="match_parent"
+            android:background="#C4C8E3"
+            android:textSize="18sp"
+            android:layout_margin="10dp"></TextView>
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_weight="1"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"></TextView>
+
+    <TextView
+        android:layout_weight="1"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:text="예약 정보"
+        android:textStyle="bold"
+        android:textColor="#000"
+        android:textSize="30sp"></TextView>
+
+    <LinearLayout
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:gravity="center_vertical"
+            android:layout_height="match_parent"
+            android:layout_weight="1.2"
+            android:text="    예약 일자"
+            android:textColor="#000"
+            android:textSize="18sp"></TextView>
+
+        <TextView
+            android:id="@+id/TV_reserv_date"
+            android:layout_weight="2"
+            android:gravity="center"
+            android:layout_width="0dp"
+            android:text="공대 구호관"
+            android:layout_height="match_parent"
+            android:background="#C4C8E3"
+            android:textSize="18sp"
+            android:layout_margin="10dp"></TextView>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:gravity="center_vertical"
+            android:layout_height="match_parent"
+            android:layout_weight="1.2"
+            android:text="    예약 시간"
+            android:textColor="#000"
+            android:textSize="18sp"></TextView>
+
+        <TextView
+            android:id="@+id/TV_reserv_time"
+            android:layout_weight="2"
+            android:gravity="center"
+            android:layout_width="0dp"
+            android:text="공대 구호관"
+            android:layout_height="match_parent"
+            android:background="#C4C8E3"
+            android:textSize="18sp"
+            android:layout_margin="10dp"></TextView>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:gravity="center_vertical"
+            android:layout_height="match_parent"
+            android:layout_weight="1.2"
+            android:text="    예약자"
+            android:textColor="#000"
+            android:textSize="18sp"></TextView>
+
+        <TextView
+            android:id="@+id/TV_reserver"
+            android:layout_weight="2"
+            android:gravity="center"
+            android:layout_width="0dp"
+            android:text="공대 구호관"
+            android:layout_height="match_parent"
+            android:background="#C4C8E3"
+            android:textSize="18sp"
+            android:layout_margin="10dp"></TextView>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:gravity="center_vertical"
+            android:layout_height="match_parent"
+            android:layout_weight="1.2"
+            android:text="    예약인원"
+            android:textColor="#000"
+            android:textSize="18sp"></TextView>
+
+        <TextView
+            android:id="@+id/TV_reserve_num"
+            android:layout_weight="2"
+            android:gravity="center"
+            android:layout_width="0dp"
+            android:text=""
+            android:layout_height="match_parent"
+            android:background="#C4C8E3"
+            android:textSize="18sp"
+            android:maxLength="3"
+            android:layout_margin="10dp"></TextView>
+
+    </LinearLayout>
 
 
-    <!--    onclick reservation 필요-->
+
+
+
+    <TextView
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"></TextView>
 
     <Button
-        android:id="@+id/reservation_bt"
+        android:layout_weight="1"
+        android:id="@+id/reservation_cancel_bt"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
-
-        android:background="@drawable/color_button1_state"
+        android:layout_height="0dp"
         android:focusable="true"
-
-        android:paddingTop="20dp"
-        android:paddingBottom="20dp"
+        android:background="@drawable/color_button1_state"
         android:text="예약 취소"
         android:textColor="#44546A"
         android:textSize="30sp"
+        android:onClick="onclick_delete_reservation"/>
 
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+    <TextView
+        android:layout_weight="0.2"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"></TextView>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

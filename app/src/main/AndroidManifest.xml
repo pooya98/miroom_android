@@ -13,6 +13,7 @@
         android:theme="@style/AppTheme">
         <activity android:name=".SignUp"></activity>
         <activity android:name=".Reservation_check_result"></activity>
+        <activity android:name=".Reservation_cancel"></activity>
         <activity android:name=".Book_page" />
         <activity android:name=".Reservate" />
         <activity android:name=".Loading" />

@@ -4,6 +4,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.View;
@@ -31,25 +32,16 @@ public class Reservation_check_result extends AppCompatActivity {
     ListView listView;
     TextView textView_no_result;
     boolean no_result_flag=false;
-    //ArrayList<String> aryList_reserv_num = new ArrayList<String>();
-    //ArrayList<String> aryList_date = new ArrayList<String>();
-    //ArrayList<String> aryList_time = new ArrayList<String>();
-    //ArrayList<String> aryList_room_name = new ArrayList<String>();
-
-    //ArrayAdapter<String> adapter_reserv_num;
-   // ArrayAdapter<String> adapter_date;
-    //ArrayAdapter<String> adapter_time;
-    //ArrayAdapter<String> adapter_room_name;
-
-    ArrayList<reservationData> reservationDataList;
 
 
-    HttpResponse response;
-    HttpClient httpClient;
-    HttpGet httpget;
+    private CustomAdapter2           m_Adapter;
+
 
     String user_name;
+    String user_id;
     String user_phone_num;
+
+    private SharedPreferences appData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,15 +55,33 @@ public class Reservation_check_result extends AppCompatActivity {
             ab.setDisplayHomeAsUpEnabled(true);
         }
 
-        Intent intent = getIntent();
-        user_name = intent.getStringExtra("parameter_user_name");
-        user_phone_num = intent.getStringExtra("parameter_user_phone_num");
+
+        m_Adapter = new CustomAdapter2();
+
 
 
         listView = (ListView)findViewById(R.id.listView_check_result);
         textView_no_result = (TextView)findViewById(R.id.no_result);
 
+        appData = getSharedPreferences("appData", MODE_PRIVATE);
 
+        user_id = appData.getString("User_ID", "");
+
+        Thread Thread = new Thread(){
+            public void run(){
+                contact_server_get_user_info();
+            }
+        };
+
+        Thread.start();
+        System.out.println("--- loadThread go!");
+
+        try{
+            Thread.join();
+            System.out.println("--- loadThread done!");
+        }catch(Exception e){
+            e.getMessage();
+        }
 
 
         /* 스레드 시작 */
@@ -95,22 +105,7 @@ public class Reservation_check_result extends AppCompatActivity {
             textView_no_result.setVisibility(View.INVISIBLE);
         }
 
-        final reservationAdapter myAdapter = new reservationAdapter(this,reservationDataList);
-
-        listView.setAdapter(myAdapter);
-
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
-            @Override
-            public void onItemClick(AdapterView parent, View v, int position, long id){
-                Toast.makeText(getApplicationContext(),
-                        myAdapter.getItem(position).getReserve_id(),
-                        Toast.LENGTH_LONG).show();
-            }
-        });
-
-
-
-        //listView.setOnItemClickListener(listener);
+        listView.setAdapter(m_Adapter);
     }
 
     public boolean onOptionsItemSelected(android.view.MenuItem item) {
@@ -123,26 +118,21 @@ public class Reservation_check_result extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-/*
-    AdapterView.OnItemClickListener listener = new AdapterView.OnItemClickListener() {
-        @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-            Toast.makeText(Reservation_check_result.this, aryList_reserv_num.get(position), Toast.LENGTH_SHORT).show();
-            Intent My_intent = new Intent(Reservation_check_result.this, com.example.miroom.Book_page.class);
-            My_intent.putExtra("parameter_reserve_id", aryList_reserv_num.get(position));
-            startActivity(My_intent);
-        }
-    };*/
 
     void contact_server_for_search(){
+
+        HttpPost httppost;
+        HttpResponse response;
+        HttpClient httpClient;
+        List<NameValuePair> nameValuePairs;
+        HttpGet httpget;
+
         System.out.println("--- 스레드 시작");
 
         try{
 
             httpClient = new DefaultHttpClient();
-            httpget = new HttpGet("http://ec2-3-35-3-235.ap-northeast-2.compute.amazonaws.com/search_my_reserv.php?user_name=%27"+ user_name+"%27&user_phone=%27"+user_phone_num+"%27");
-
+            httpget = new HttpGet("http://ec2-3-35-3-235.ap-northeast-2.compute.amazonaws.com/reservation_load.php?user_name="+user_name+"&user_phone="+user_phone_num);
             response = httpClient.execute(httpget);
 
             //
@@ -158,40 +148,67 @@ public class Reservation_check_result extends AppCompatActivity {
             String[] token;
             token = response_string.split(" ");
 
-            reservationDataList = new ArrayList<reservationData>();
-
             if(token[0].equals("")){
-                no_result_flag = true;
+
             }
             else {
-                for (int i = 0; i < (token.length)/7; i++) {
+                for (int i = 0; i < token.length; i = i+7) {
+                    System.out.println("token " + i + " : " + token[i]);
 
-                    String temp = "";
-                    System.out.println("token " + i*7 + " : " + token[i*7]);
-                    System.out.println("token " + i*7+1 + " : " + token[i*7+1]);
-                    System.out.println("token " + i*7+2 + " : " + token[i*7+2]);
-                    System.out.println("token " + i*7+3 + " : " + token[i*7+3]);
-                    System.out.println("token " + i*7+4 + " : " + token[i*7+4]);
-                    System.out.println("token " + i*7+5 + " : " + token[i*7+5]);
-                    System.out.println("token " + i*7+6 + " : " + token[i*7+6]);
+                    ReservationDTO dto = new ReservationDTO();
 
-                    token[i*7+1] = token[i*7+1].substring(5);
-                    token[i*7+2] = token[i*7+2].substring(0,5);
-                    token[i*7+4] = token[i*7+4].substring(0,5);
-
-                    temp = token[i*7+2]+"~"+token[i*7+4];
-
-
-                    //aryList_reserv_num.add(token[i*6]);
-                    //aryList_date.add(token[i*6+1]);
-                    //aryList_time.add(temp);
-                    //aryList_room_name.add(token[i*6+5]);
-
-                    reservationDataList.add(new reservationData(token[i*7], token[i*7+1], temp, token[i*7+5], token[i*7+6]));
+                    dto.setId(token[i]);
+                    dto.setDate(token[i+1]);
+                    dto.setStart_time(token[i+2]);
+                    dto.setEnd_time(token[i+4]);
+                    dto.setLayer(token[i+5]);
+                    dto.setRoom_name(token[i+6]);
+                    m_Adapter.add(dto);
                 }
             }
         }catch (Exception e){
             System.out.println("Exception : "+e.getMessage());
         }
     }
+
+    void contact_server_get_user_info(){
+
+        HttpPost httppost;
+        HttpResponse response;
+        HttpClient httpClient;
+        List<NameValuePair> nameValuePairs;
+        HttpGet httpget;
+
+        System.out.println("--- 스레드 시작");
+
+        try{
+            httpClient = new DefaultHttpClient();
+            httpget = new HttpGet("http://ec2-3-35-3-235.ap-northeast-2.compute.amazonaws.com/get_user_info.php?account="+user_id);
+
+            response = httpClient.execute(httpget);
+
+            //
+            Scanner scan = new Scanner(response.getEntity().getContent());
+
+            String response_string = "";
+            while(scan.hasNext()){
+                response_string += scan.nextLine();
+            }
+
+            String[] token;
+            token = response_string.split(" ");
+
+            if(token[0].equals("")){
+
+            }
+            else {
+                user_name = token[0];
+                user_phone_num = token[1];
+            }
+
+        }catch (Exception e){
+            System.out.println("Exception : "+e.getMessage());
+        }
+    }
+
 }

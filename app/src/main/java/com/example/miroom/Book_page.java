@@ -61,7 +61,6 @@ public class Book_page extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_book_page);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         appData = getSharedPreferences("appData", MODE_PRIVATE);
@@ -467,4 +466,5 @@ public class Book_page extends AppCompatActivity {
             }
         });
     }
+
 }
