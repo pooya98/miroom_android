@@ -3,8 +3,10 @@ package com.example.miroom;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
@@ -40,8 +42,9 @@ import java.util.zip.Deflater;
 public class Reservate extends AppCompatActivity {
 
     ListView listView;
-    ArrayList<String> aryList = new ArrayList<String>();
     Spinner layer_spinner;
+    Spinner spinner3, spinner4;
+    private CustomAdapter           m_Adapter;
 
     private TextView textView_Date;
     private DatePickerDialog.OnDateSetListener callbackMethod;
@@ -51,8 +54,6 @@ public class Reservate extends AppCompatActivity {
     int select_day;
     String select_yoil;
     String selected_layer;
-
-    ArrayAdapter<String> adapter;
 
     ArrayList<String> arrayList_for_layer_spinner = new ArrayList<String>();
 
@@ -76,6 +77,8 @@ public class Reservate extends AppCompatActivity {
         this.InitializeListener();
 
         layer_spinner = (Spinner)findViewById(R.id.layer_spinner);
+
+        m_Adapter = new CustomAdapter();
 
 
         /* 현재 날짜 정보 저장 */
@@ -123,7 +126,7 @@ public class Reservate extends AppCompatActivity {
 
 
 
-        Spinner spinner3 = (Spinner) findViewById(R.id.start_time_spinner);
+        spinner3 = (Spinner) findViewById(R.id.start_time_spinner);
         ArrayList<String> arrayList3 = new ArrayList<String>();
         arrayList3.add(0, "시작 시각");
         for (int i = 0; i <= 24; i++) {
@@ -140,7 +143,7 @@ public class Reservate extends AppCompatActivity {
 
 
         /* 종료시각 spinner */
-        Spinner spinner4 = (Spinner) findViewById(R.id.end_time_spinner);
+        spinner4 = (Spinner) findViewById(R.id.end_time_spinner);
         ArrayList<String> arrayList4 = new ArrayList<String>();
         arrayList4.add(0, "종료 시각");
         for (int i = 0; i <= 24; i++) {
@@ -160,26 +163,18 @@ public class Reservate extends AppCompatActivity {
 
         listView = (ListView) findViewById(R.id.listView);
 
-
-        adapter = new ArrayAdapter<String>(
-                this,
-                R.layout.item,
-                R.id.name,
-                aryList
-        );
-
     }
-
+/*
     AdapterView.OnItemClickListener listener = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-            Toast.makeText(Reservate.this, aryList.get(position), Toast.LENGTH_SHORT).show();
+            Toast.makeText(Reservate.this,listView.get, Toast.LENGTH_SHORT).show();
             Intent My_intent = new Intent(Reservate.this, com.example.miroom.Book_page.class);
-            My_intent.putExtra("parameter_title", aryList.get(position));
+            My_intent.putExtra("parameter_title", aryList.get(position).getRoom_name());
             startActivity(My_intent);
         }
-    };
+    };*/
 
     public boolean onOptionsItemSelected(android.view.MenuItem item) {
         switch (item.getItemId()) {
@@ -264,26 +259,54 @@ public class Reservate extends AppCompatActivity {
 
     public void onclick_OK(View view) {
 
-        aryList.clear();
-        Thread searchThread = new Thread(){
-            public void run(){
-                contact_server_for_search();
+        if(layer_spinner.getSelectedItem().toString().equals("층")) {
+            showAlert_layer();
+        }else if(spinner3.getSelectedItem().toString().equals("시작 시각")){
+            showAlert_start_time();
+        }else if(spinner4.getSelectedItem().toString().equals("종료 시각")){
+            showAlert_end_time();
+        }else if(Integer.parseInt(spinner3.getSelectedItem().toString().substring(0,2))> Integer.parseInt(spinner4.getSelectedItem().toString().substring(0,2))){
+            showAlert_time_reserve();
+        }else if(Integer.parseInt(spinner3.getSelectedItem().toString().substring(0,2)) == Integer.parseInt(spinner4.getSelectedItem().toString().substring(0,2))){
+            showAlert_time_same();
+        }else{
+            m_Adapter = new CustomAdapter();
+            Thread searchThread = new Thread(){
+                public void run(){
+                    contact_server_for_search();
+                }
+            };
+
+            searchThread.start();
+            System.out.println("--- loadThread go!");
+
+            try{
+                searchThread.join();
+                System.out.println("--- loadThread done!");
+            }catch(Exception e){
+                e.getMessage();
             }
-        };
 
-        searchThread.start();
-        System.out.println("--- loadThread go!");
+            Thread searchThread2 = new Thread(){
+                public void run(){
+                    contact_server_for_search2();
+                }
+            };
 
-        try{
-            searchThread.join();
-            System.out.println("--- loadThread done!");
-        }catch(Exception e){
-            e.getMessage();
+            searchThread2.start();
+            System.out.println("--- loadThread go!");
+
+            try{
+                searchThread2.join();
+                System.out.println("--- loadThread done!");
+            }catch(Exception e){
+                e.getMessage();
+            }
+
+
+            listView.setAdapter(m_Adapter);
+            //listView.setOnItemClickListener(listener);
         }
-
-
-        listView.setAdapter(adapter);
-        listView.setOnItemClickListener(listener);
     }
 
     void contact_server_for_load(){
@@ -322,12 +345,16 @@ public class Reservate extends AppCompatActivity {
     void contact_server_for_search(){
         System.out.println("--- 스레드 시작");
 
+        String select_date = select_year+"-"+select_month+"-"+select_day;
+        String start_time = spinner3.getSelectedItem().toString()+":00";
+        String end_time = spinner4.getSelectedItem().toString()+":00";
+
         try{
 
             String selected_layer = layer_spinner.getSelectedItem().toString();
 
             httpClient = new DefaultHttpClient();
-            httpget = new HttpGet("http://ec2-3-35-3-235.ap-northeast-2.compute.amazonaws.com/search_room.php?layer=%27"+ selected_layer+"%27");
+            httpget = new HttpGet("http://ec2-3-35-3-235.ap-northeast-2.compute.amazonaws.com/search_room2.php?layer="+ selected_layer+"&date="+select_date+"&start_time="+start_time+"&end_time="+end_time);
             //nameValuePairs = new ArrayList<>(2);
             //nameValuePairs.add(new BasicNameValuePair("layer", selected_layer));
 
@@ -353,11 +380,160 @@ public class Reservate extends AppCompatActivity {
             else {
                 for (int i = 0; i < token.length; i++) {
                     System.out.println("token " + i + " : " + token[i]);
-                    aryList.add(token[i]);
+
+                    RoomDTO dto = new RoomDTO();
+
+                    dto.setRoom_name(token[i]);
+                    dto.setLayer(selected_layer);
+                    dto.setStart_time(start_time);
+                    dto.setEnd_time(end_time);
+                    dto.setDate(select_date);
+                    dto.setCheck_flag("예약가능");
+                    m_Adapter.add(dto);
                 }
             }
         }catch (Exception e){
             System.out.println("Exception : "+e.getMessage());
         }
+    }
+
+    void contact_server_for_search2(){
+        System.out.println("--- 스레드 시작");
+
+        String select_date = select_year+"-"+select_month+"-"+select_day;
+        String start_time = spinner3.getSelectedItem().toString()+":00";
+        String end_time = spinner4.getSelectedItem().toString()+":00";
+
+        try{
+
+            String selected_layer = layer_spinner.getSelectedItem().toString();
+
+            httpClient = new DefaultHttpClient();
+            httpget = new HttpGet("http://ec2-3-35-3-235.ap-northeast-2.compute.amazonaws.com/search_unavail_room.php?layer="+ selected_layer+"&date="+select_date+"&start_time="+start_time+"&end_time="+end_time);
+            //nameValuePairs = new ArrayList<>(2);
+            //nameValuePairs.add(new BasicNameValuePair("layer", selected_layer));
+
+            //httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+            response = httpClient.execute(httpget);
+
+            //
+            Scanner scan = new Scanner(response.getEntity().getContent());
+
+            String response_string = "";
+            while(scan.hasNext()){
+                response_string += scan.nextLine();
+            }
+
+            System.out.println("---Response : "+response_string);
+
+            String[] token;
+            token = response_string.split(" ");
+
+            if(token[0].equals("")){
+
+            }
+            else {
+                for (int i = 0; i < token.length; i++) {
+                    System.out.println("token " + i + " : " + token[i]);
+
+                    RoomDTO dto = new RoomDTO();
+
+                    dto.setRoom_name(token[i]);
+                    dto.setLayer(selected_layer);
+                    dto.setStart_time(start_time);
+                    dto.setEnd_time(end_time);
+                    dto.setDate(select_date);
+                    dto.setCheck_flag("예약불가");
+                    m_Adapter.add(dto);
+                }
+            }
+        }catch (Exception e){
+            System.out.println("Exception : "+e.getMessage());
+        }
+    }
+
+    public void showAlert_layer() {
+        Reservate.this.runOnUiThread(new Runnable() {
+            public void run() {
+                AlertDialog.Builder builder = new AlertDialog.Builder(Reservate.this);
+                builder.setTitle(" ");
+                builder.setMessage("층을 선택해주세요.")
+                        .setCancelable(false)
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                            }
+                        });
+                AlertDialog alert = builder.create();
+                alert.show();
+            }
+        });
+    }
+
+    public void showAlert_start_time() {
+        Reservate.this.runOnUiThread(new Runnable() {
+            public void run() {
+                AlertDialog.Builder builder = new AlertDialog.Builder(Reservate.this);
+                builder.setTitle(" ");
+                builder.setMessage("시작 시각을 선택해주세요.")
+                        .setCancelable(false)
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                            }
+                        });
+                AlertDialog alert = builder.create();
+                alert.show();
+            }
+        });
+    }
+
+    public void showAlert_end_time() {
+        Reservate.this.runOnUiThread(new Runnable() {
+            public void run() {
+                AlertDialog.Builder builder = new AlertDialog.Builder(Reservate.this);
+                builder.setTitle(" ");
+                builder.setMessage("종료 시각을 선택해주세요.")
+                        .setCancelable(false)
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                            }
+                        });
+                AlertDialog alert = builder.create();
+                alert.show();
+            }
+        });
+    }
+
+    public void showAlert_time_reserve() {
+        Reservate.this.runOnUiThread(new Runnable() {
+            public void run() {
+                AlertDialog.Builder builder = new AlertDialog.Builder(Reservate.this);
+                builder.setTitle(" ");
+                builder.setMessage("종료시각이 더 빠릅니다.\n 다시 선택해주세요.")
+                        .setCancelable(false)
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                            }
+                        });
+                AlertDialog alert = builder.create();
+                alert.show();
+            }
+        });
+    }
+
+    public void showAlert_time_same() {
+        Reservate.this.runOnUiThread(new Runnable() {
+            public void run() {
+                AlertDialog.Builder builder = new AlertDialog.Builder(Reservate.this);
+                builder.setTitle(" ");
+                builder.setMessage("시작 시각과 종료 시각이 같습니다.\n 다시 선택해주세요.")
+                        .setCancelable(false)
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                            }
+                        });
+                AlertDialog alert = builder.create();
+                alert.show();
+            }
+        });
     }
 }

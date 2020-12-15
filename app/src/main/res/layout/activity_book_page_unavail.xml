@@ -112,7 +112,7 @@
         android:gravity="center"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:text="예약 정보"
+        android:text="현재 예약 정보"
         android:textStyle="bold"
         android:textColor="#000"
         android:textSize="30sp"></TextView>
@@ -225,9 +225,9 @@
             android:layout_height="match_parent"
             android:background="#C4C8E3"
             android:textSize="18sp"
-            android:inputType="number"
             android:maxLength="3"
-            android:layout_margin="10dp"></EditText>
+            android:layout_margin="10dp"
+            android:enabled="false"></EditText>
 
     </LinearLayout>
 
@@ -246,11 +246,11 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:focusable="true"
-        android:background="@drawable/color_button1_state"
-        android:text="예약하기"
+        android:background="#FFA7A7"
+        android:text="예약 불가"
         android:textColor="#44546A"
         android:textSize="30sp"
-        android:onClick="onclick_Insert_reservation"/>
+        android:enabled="false"/>
 
     <TextView
         android:layout_weight="0.2"
