@@ -33,6 +33,8 @@ public class Login extends Activity {
     String Response;
     private SharedPreferences appData;
 
+    private long lastTimeBackPressed;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -97,6 +99,16 @@ public class Login extends Activity {
                 }
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(System.currentTimeMillis() - lastTimeBackPressed < 2000){
+            finish();
+            return;
+        }
+        lastTimeBackPressed = System.currentTimeMillis();
+        Toast.makeText(this,"'뒤로가기' 버튼을 한 번 더 누르면 종료됩니다.",Toast.LENGTH_SHORT).show();
     }
 
     public void onclick_GoSignUp(View view) {
